@@ -7,4 +7,5 @@ import com.shopme.common.model.User;
 
 public interface UserService {
 	List<User> ListAll();
+	void saveUser(User user);
 }
