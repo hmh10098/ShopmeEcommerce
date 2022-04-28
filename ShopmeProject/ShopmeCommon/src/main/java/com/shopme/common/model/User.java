@@ -26,25 +26,21 @@ public class User {
 
 	@Column(length = 64, nullable = false)
 	private String password;
-	
-	@Column(name="first_name", length = 45, nullable = false)
-	private String fistName;
-	
-	@Column(name="last_name", length = 45, nullable = false)
+
+	@Column(name = "first_name", length = 45, nullable = false)
+	private String firstName;
+
+	@Column(name = "last_name", length = 45, nullable = false)
 	private String lastName;
-	
+
 	@Column(length = 64)
 	private String photos;
-	
-	@Column(name="enabled")
+
+	@Column(name = "enabled")
 	private boolean enabled;
 
 	@ManyToMany
-	@JoinTable(
-				name = "users_roles",
-				joinColumns = @JoinColumn(name="user_id"),
-				inverseJoinColumns = @JoinColumn(name="role_id")
-			)
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
 	public Long getId() {
@@ -71,12 +67,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getFistName() {
-		return fistName;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFistName(String fistName) {
-		this.fistName = fistName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getLastName() {
@@ -114,22 +110,21 @@ public class User {
 	public User() {
 	}
 
-	public User(String email, String password, String fistName, String lastName) {
+	public User(String email, String password, String firstName, String lastName) {
 		this.email = email;
 		this.password = password;
-		this.fistName = fistName;
+		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-	
+
 	public void addRole(Role role) {
 		this.roles.add(role);
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", fistName=" + fistName + ", lastName=" + lastName + ", roles="
+		return "User [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", roles="
 				+ roles + "]";
 	}
-	
-	
+
 }
