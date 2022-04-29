@@ -25,47 +25,64 @@ public class UserRepositoryTests {
 	@Autowired
 	private TestEntityManager testEntityManager;
 	
+//	@Test
+//	public void testCreateNewUserWithOneRole() {
+//		Role roleAdmin = testEntityManager.find(Role.class, 1);
+//		User userHieuhm = new User("hieu@gmail.com", "hieu123", "Hieu", "Ha Minh");
+//		userHieuhm.addRole(roleAdmin);
+//		
+//		User savedUser = repo.save(userHieuhm);
+//		
+//		assertThat(savedUser.getId()).isGreaterThan(0);
+//		
+//	}
+//	
+//	@Test
+//	public void testCreateNewUserWithTwoRole() {
+//		User userDuong = new User("duong@gmail.com", "duong12", "Duong", "Nguyen Sy");
+//		
+//		Role roleEditor = new Role(3);
+//		Role roleAssistiant = new Role(5);
+//		
+//		userDuong.addRole(roleAssistiant);
+//		userDuong.addRole(roleEditor);
+//		
+//		User savedUser = repo.save(userDuong);
+//		
+//		assertThat(savedUser.getId()).isGreaterThan(0);
+//		
+//	}
+//	
+//	@Test
+//	public void testListAllUsers() {
+//		Iterable<User> listUsers = repo.findAll();
+//		listUsers.forEach(user->System.out.print(user));
+//		//assertThat(listUsers.)
+//		
+//	}
+//	
+//	@Test
+//	public void testGetUserByEmail() {
+//		String email="hieu@gmail.com";
+//		User user = repo.getUserByEmail(email);
+//		
+//		assertThat(user).isNotNull();
+//	}
+//	
+//	@Test
+//	public void testCountById() {
+//		Long id = 1L;
+//		Long countById = repo.countById(id);
+//		
+//		assertThat(countById).isGreaterThan(0);
+//	}
+//	
 	@Test
-	public void testCreateNewUserWithOneRole() {
-		Role roleAdmin = testEntityManager.find(Role.class, 1);
-		User userHieuhm = new User("hieu@gmail.com", "hieu123", "Hieu", "Ha Minh");
-		userHieuhm.addRole(roleAdmin);
+	public void testDisableUser() {
+		Long id = 3L;
 		
-		User savedUser = repo.save(userHieuhm);
-		
-		assertThat(savedUser.getId()).isGreaterThan(0);
-		
-	}
+		repo.updateEnabledStatus(id, true);
+		}
 	
-	@Test
-	public void testCreateNewUserWithTwoRole() {
-		User userDuong = new User("duong@gmail.com", "duong12", "Duong", "Nguyen Sy");
-		
-		Role roleEditor = new Role(3);
-		Role roleAssistiant = new Role(5);
-		
-		userDuong.addRole(roleAssistiant);
-		userDuong.addRole(roleEditor);
-		
-		User savedUser = repo.save(userDuong);
-		
-		assertThat(savedUser.getId()).isGreaterThan(0);
-		
-	}
 	
-	@Test
-	public void testListAllUsers() {
-		Iterable<User> listUsers = repo.findAll();
-		listUsers.forEach(user->System.out.print(user));
-		//assertThat(listUsers.)
-		
-	}
-	
-	@Test
-	public void testGetUserByEmail() {
-		String email="hieu@gmail.com";
-		User user = repo.getUserByEmail(email);
-		
-		assertThat(user).isNotNull();
-	}
 }
