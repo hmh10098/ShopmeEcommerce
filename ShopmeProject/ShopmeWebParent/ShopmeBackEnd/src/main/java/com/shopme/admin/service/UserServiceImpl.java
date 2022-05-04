@@ -14,6 +14,7 @@ import com.shopme.admin.error.UserNotFoundException;
 import com.shopme.admin.repository.UserRepository;
 import com.shopme.common.model.User;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Service
 @Transactional
@@ -33,8 +34,11 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public Page<User> listByPage(int pageNum){
-		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE);
+	public Page<User> listByPage(int pageNum, String sortField, String sortOder){
+		Sort sort = Sort.by(sortField);
+		
+		sort = sortOder.equals("asc") ? sort.ascending() : sort.descending();
+		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE, sort);
 		return userRepository.findAll(pageable);
 	}
 

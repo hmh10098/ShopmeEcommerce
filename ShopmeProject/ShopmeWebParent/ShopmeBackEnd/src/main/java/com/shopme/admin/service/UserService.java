@@ -9,7 +9,7 @@ import com.shopme.common.model.User;
 
 public interface UserService {
 	List<User> ListAll();
-	Page<User> listByPage(int pageNum);
+	Page<User> listByPage(int pageNum, String sortField, String sortOder);
 	User saveUser(User user);
 	boolean isEmailUnique(String email, Long id);
 	User get(Long id) throws UserNotFoundException;
