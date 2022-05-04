@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.shopme.admin.service.FileUploadUtil;
 import com.shopme.admin.service.RoleService;
 import com.shopme.admin.service.UserService;
+import com.shopme.admin.service.UserServiceImpl;
 import com.shopme.common.model.Role;
 import com.shopme.common.model.User;
 
@@ -30,10 +32,8 @@ public class UserController {
 	private RoleService roleService;
 	
 	@GetMapping("/users")
-	public String listAll(Model model) {
-		List<User> listUsers = userService.ListAll();
-		model.addAttribute("listUsers", listUsers);
-		return "users";
+	public String listFirstPage(Model model) {
+		return listByPage(1, model);
 	}
 	
 	@GetMapping("/users/new")
@@ -67,6 +67,24 @@ public class UserController {
 		
 		redirectAttributes.addFlashAttribute("message", "The user has been save successfully");
 		return "redirect:/users";
+	}
+	
+	@GetMapping("/users/page/{pageNum}")
+	public String listByPage(@PathVariable(name="pageNum") int pageNum, Model model) {
+		Page<User> pageUser = userService.listByPage(pageNum);
+		
+		long startCount = (pageNum - 1) * UserServiceImpl.USERS_PER_PAGE + 1;
+		long endCount = startCount + UserServiceImpl.USERS_PER_PAGE;
+		if (endCount > pageUser.getTotalElements()) {
+			endCount = pageUser.getTotalElements();
+		}
+		model.addAttribute("listUsers", pageUser.getContent());
+		model.addAttribute("startCount", startCount);
+		model.addAttribute("endCount", endCount);
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("totalPages", pageUser.getTotalPages());
+		model.addAttribute("totalItems", pageUser.getTotalElements());
+		return "users";
 	}
 	
 	@GetMapping("/users/edit/{id}")

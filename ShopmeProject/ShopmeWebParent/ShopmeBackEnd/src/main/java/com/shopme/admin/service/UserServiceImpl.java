@@ -5,17 +5,22 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shopme.admin.error.UserNotFoundException;
 import com.shopme.admin.repository.UserRepository;
 import com.shopme.common.model.User;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService{
 
+	public static final int USERS_PER_PAGE = 4;
+	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -24,8 +29,15 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public List<User> ListAll(){
-		return userRepository.findAll();
+		return (List<User>) userRepository.findAll();
 	}
+	
+	@Override
+	public Page<User> listByPage(int pageNum){
+		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE);
+		return userRepository.findAll(pageable);
+	}
+
 	
 	@Override
 	public User saveUser(User user) {
