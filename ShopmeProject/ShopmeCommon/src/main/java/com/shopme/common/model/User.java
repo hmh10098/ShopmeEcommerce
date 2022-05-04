@@ -1,5 +1,6 @@
 package com.shopme.common.model;
 
+import java.beans.Transient;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -127,4 +128,10 @@ public class User {
 				+ roles + "]";
 	}
 
+	@Transient
+	public String getPhotosImagePath() {
+		if (this.id == null || this.photos == null) return "/images/default-user.png";
+		return "/user-photos/" + this.id + "/" + this.photos;
+	}
+	
 }

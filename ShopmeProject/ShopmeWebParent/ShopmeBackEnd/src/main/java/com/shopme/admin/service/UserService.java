@@ -7,7 +7,7 @@ import com.shopme.common.model.User;
 
 public interface UserService {
 	List<User> ListAll();
-	void saveUser(User user);
+	User saveUser(User user);
 	boolean isEmailUnique(String email, Long id);
 	User get(Long id) throws UserNotFoundException;
 	void delete(Long id) throws UserNotFoundException;
