@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public List<User> ListAll(){
-		return (List<User>) userRepository.findAll();
+		return (List<User>) userRepository.findAll(Sort.by("firstName").ascending());
 	}
 	
 	@Override
