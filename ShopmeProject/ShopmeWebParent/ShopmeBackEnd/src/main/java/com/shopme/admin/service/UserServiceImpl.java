@@ -34,11 +34,14 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public Page<User> listByPage(int pageNum, String sortField, String sortOder){
+	public Page<User> listByPage(int pageNum, String sortField, String sortOder, String keyword){
 		Sort sort = Sort.by(sortField);
 		
 		sort = sortOder.equals("asc") ? sort.ascending() : sort.descending();
 		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE, sort);
+		if (keyword != null) {
+			return userRepository.findAll(keyword, pageable);
+		}
 		return userRepository.findAll(pageable);
 	}
 
