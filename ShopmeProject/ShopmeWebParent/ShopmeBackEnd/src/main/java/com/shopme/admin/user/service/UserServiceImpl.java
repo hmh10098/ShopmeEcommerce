@@ -1,4 +1,4 @@
-package com.shopme.admin.service;
+package com.shopme.admin.user.service;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.shopme.admin.error.UserNotFoundException;
-import com.shopme.admin.repository.UserRepository;
+import com.shopme.admin.user.error.UserNotFoundException;
+import com.shopme.admin.user.repository.UserRepository;
 import com.shopme.common.model.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -31,6 +31,30 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> ListAll(){
 		return (List<User>) userRepository.findAll(Sort.by("firstName").ascending());
+	}
+	
+	@Override
+	public User getByEmail(String email) {
+		return userRepository.getUserByEmail(email);
+	}
+
+	@Override
+	public 	User updateAccount(User userInForm) {
+		User userInDB = userRepository.findById(userInForm.getId()).get();
+		
+		if(!userInForm.getPassword().isEmpty()) {
+			userInDB.setPassword(userInForm.getPassword());
+			encodePassword(userInDB);
+		}
+		
+		if (userInForm.getPhotos() != null) {
+			userInDB.setPhotos(userInForm.getPhotos());
+		}
+		
+		userInDB.setFirstName(userInForm.getFirstName());
+		userInDB.setLastName(userInForm.getLastName());
+		
+		return userRepository.save(userInDB);
 	}
 	
 	@Override

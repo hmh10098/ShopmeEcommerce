@@ -18,6 +18,11 @@
 		<div th:if="${param.error}">
 			<p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
 		</div>
+		
+		<div th:if="${param.logout}">
+			<p class="text-warning">You have been logout</p>			
+		</div>
+		
 		<div class="border border-secondary rounded p-3">
 			<p>Access to Shopme Control Panel</p>
 			<p>
@@ -25,6 +30,10 @@
 			</p>
 			<p>
 				<input type="password" name="password" class="form-control" placeholder="Password" required />
+			</p>
+			
+			<p>
+				<input type="checkbox" name="remember-me" />&nbsp;Remember Me
 			</p>
 			
 			<p>

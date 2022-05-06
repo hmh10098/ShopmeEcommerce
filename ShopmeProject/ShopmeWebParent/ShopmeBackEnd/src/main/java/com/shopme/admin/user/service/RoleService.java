@@ -1,4 +1,4 @@
-package com.shopme.admin.service;
+package com.shopme.admin.user.service;
 
 import java.util.List;
 

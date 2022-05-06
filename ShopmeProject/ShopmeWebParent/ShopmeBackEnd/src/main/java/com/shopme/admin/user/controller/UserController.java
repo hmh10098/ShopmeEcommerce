@@ -1,4 +1,4 @@
-package com.shopme.admin.controller;
+package com.shopme.admin.user.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.shopme.admin.service.FileUploadUtil;
-import com.shopme.admin.service.RoleService;
-import com.shopme.admin.service.UserCsvExporter;
-import com.shopme.admin.service.UserExcelExporter;
-import com.shopme.admin.service.UserPdfExporter;
-import com.shopme.admin.service.UserService;
-import com.shopme.admin.service.UserServiceImpl;
+import com.shopme.admin.user.export.UserCsvExporter;
+import com.shopme.admin.user.export.UserExcelExporter;
+import com.shopme.admin.user.export.UserPdfExporter;
+import com.shopme.admin.user.service.FileUploadUtil;
+import com.shopme.admin.user.service.RoleService;
+import com.shopme.admin.user.service.UserService;
+import com.shopme.admin.user.service.UserServiceImpl;
 import com.shopme.common.model.Role;
 import com.shopme.common.model.User;
 
@@ -51,7 +51,7 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("listRoles", listRoles);
 		model.addAttribute("pageTitle", "Create New User");
-		return "user_form";
+		return "users/user_form";
 	}
 	
 	@PostMapping("/users/save")
@@ -105,7 +105,7 @@ public class UserController {
 		model.addAttribute("sortDir", sortDir);
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
-		return "users";
+		return "users/users";
 	}
 	
 	@GetMapping("/users/edit/{id}")
@@ -118,7 +118,7 @@ public class UserController {
 		try {
 			User user = userService.get(id);
 			model.addAttribute("user", user);
-			return "user_form";
+			return "users/user_form";
 		} catch(Exception ex){
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/users";

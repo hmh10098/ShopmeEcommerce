@@ -41,13 +41,29 @@ public class WebSecrityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
-		http.authorizeRequests()
+		http.authorizeRequests() 
+		.antMatchers("/users/**").hasAuthority("Admin")
+		.antMatchers("/categories/**").hasAnyAuthority("Admin", "Editor")
+		.antMatchers("/brands/**").hasAnyAuthority("Admin", "Editor")
+		.antMatchers("/products/**").hasAnyAuthority("Admin", "Editor", "Salesperson", "Shipper")
+		.antMatchers("/customers/**").hasAnyAuthority("Admin", "Salesperson")
+		.antMatchers("/shipping/**").hasAnyAuthority("Admin", "Salesperson")
+		.antMatchers("/orders/**").hasAnyAuthority("Admin", "Salesperson", "Shipper")
+		.antMatchers("/report/**").hasAnyAuthority("Admin", "Salesperson")
+		.antMatchers("/articles/**").hasAnyAuthority("Admin", "Editor")
+		.antMatchers("/menus/**").hasAnyAuthority("Admin", "Editor")
+		.antMatchers("/settings/**").hasAuthority("Admin")
 		.anyRequest().authenticated()
 		.and() 
 		.formLogin() 
 			.loginPage("/login")
 			.usernameParameter("email")
-			.permitAll();
+			.permitAll() 
+		.and().logout().permitAll()
+		.and()
+			.rememberMe()
+				.key("AbcDefHijKlmsadm123sa_sadmqwasdmas,d,")
+				.tokenValiditySeconds(7 * 24 * 60 * 60);
 	}
 
 	@Override
